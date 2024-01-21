@@ -8,20 +8,22 @@ class GameModel {
         this.score = 0;
     }
 
-    // グリッドを生成（空のゲームフィールド）
-    createEmptyGrid() {
-        // ここで10x20の2次元配列を生成し、全ての要素を0（空）で初期化
-        this.grid = this.createGrid(10, 20);
-        // 初期ピースを設定
-        this.currentPiece = { x: 3, y: 0, shape: this.createNewTetromino() };
+    // 現在のゲームのデータを取得（ビューに渡すため）
+    get data() {
+        return {
+            grid: this.grid,
+            currentTetromino: this.currentTetromino,
+            score: this.score
+        };
     }
 
-    // width x height のグリッドを作成
-    createGrid(width, height) {
+    // 空のグリッド
+    createEmptyGrid() {
+        // 10x20の2次元配列を生成し、全ての要素を0（空）で初期化
         const grid = [];
-        for (let y = 0; y < height; y++) {
+        for (let y = 0; y < 20; y++) {
             grid[y] = [];
-            for (let x = 0; x < width; x++) {
+            for (let x = 0; x < 10; x++) {
                 grid[y][x] = 0;
             }
         }
@@ -31,9 +33,61 @@ class GameModel {
     // 新しいテトリミノを生成
     createNewTetromino() {
         // ランダムにテトリミノを選択し、初期状態で返す
-        return [
-            [1,1,1,1]
-        ];
+        return {
+            x: 3,
+            y: 0,
+            shape: [
+                [0, 1, 1],
+                [1, 1, 0]
+            ]
+        };
+    }
+
+    // テトリミノを落とす
+    drop() {
+        if (!this.detectCollision(0, 1, this.currentTetromino)) {
+            // テトリミノを一つ下に移動
+            this.currentTetromino.y++; 
+        } else {
+            // テトリミノを固定して、新しいテトリミノを生成
+            this.fixTetromino();
+            this.currentTetromino = this.createNewTetromino();
+        }
+        // 衝突のチェックもここで行い、ラインが完成していれば消去し、スコアを更新
+    }
+
+    // 衝突チェック
+    detectCollision(xOffset, yOffset, tetromino) {
+        for (let y = 0; y < tetromino.shape.length; y++) {
+            for (let x = 0; x < tetromino.shape.length; x++) {
+                if (!tetromino.shape[y][x]) {
+                    continue
+                }
+                let newX = tetromino.x + x + xOffset;
+                let newY = tetromino.y + y + yOffset;
+                if (newX < 0 || newX >= 10 || newY >= 20) {
+                    return true;
+                }
+                if (newY < 0) {
+                    continue;
+                }
+                if (this.grid[newY] && this.grid[newY][newX]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    // 落ち切ったテトリミノの固定
+    fixTetromino() {
+        this.currentTetromino.shape.forEach((row, y) => {
+            row.forEach((value, x) => {
+                if (value) {
+                    this.grid[y + this.currentTetromino.y][x + this.currentTetromino.x] = value;
+                }
+            });
+        });
     }
 
     // テトリミノを左に移動
@@ -54,25 +108,10 @@ class GameModel {
         // 衝突のチェックもここで行う
     }
 
-    // テトリミノを落とす
-    drop() {
-        // テトリミノを一つ下に移動
-        this.currentPiece.y += 1 
-        // 衝突のチェックもここで行い、ラインが完成していれば消去し、スコアを更新
-    }
 
     // ゲームオーバーのチェック
     checkGameOver() {
         // ゲームオーバーの条件をチェックし、その結果を返す
-    }
-
-    // 現在のゲームのデータを取得（ビューに渡すため）
-    get data() {
-        return {
-            grid: this.grid,
-            currentTetromino: this.currentTetromino,
-            score: this.score
-        };
     }
 }
 

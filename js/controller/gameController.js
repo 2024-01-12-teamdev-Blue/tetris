@@ -9,13 +9,8 @@ class GameController {
         this.model = model;
         this.view = view;
 
-        view.on('left', () => this.moveLeft());
-        view.on('right', () => this.moveRight());
-        view.on('rotate', () => this.rotate());
-        view.on('drop', () => this.drop());
-
         //ゲームの初期状態を設定
-        view.render(model.data);
+        view.render(model.data.grid, model.data.currentTetromino);
         
         setInterval(() => {
             this.gameLoop();
@@ -24,7 +19,9 @@ class GameController {
     
     gameLoop() {
         this.model.drop();
-        this.view.render(this.model.grid, this.model.currentPiece);
+        console.log('render before:', JSON.stringify(this.model.grid)); 
+        this.view.render(this.model.grid, this.model.currentTetromino);
+        console.log('render after:', JSON.stringify(this.model.grid));
     }
 
     // 左に動かす
@@ -59,4 +56,3 @@ class GameController {
 
 // ゲームを起動
 const controller = new GameController(model, view);
-

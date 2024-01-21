@@ -3,66 +3,58 @@
 
 class GameView {
     constructor() {
-        this.initialize();
+        this.canvas = document.getElementById('cvs');
+        // 引数を"2d"とすることで2Dグラフィックの描画に特化したメソッドやプロパティを持つオブジェクトを取得
+        this.context = this.canvas.getContext('2d');
+
+        this.cellSize = 30; // グリッドのセルのサイズ（ピクセル）
+        this.gridRows = 20; // グリッドの行数
+        this.gridCols = 10; // グリッドの列数
+
+        // canvasのサイズ
+        this.canvas.width = this.cellSize * this.gridCols
+        this.canvas.height = this.cellSize * this.gridRows
     }
 
-    // ゲームビューの初期設定
-    initialize() {
-        this.gameBoard = document.getElementById('tetris-container');
+    render(grid, currentTetromino) {
+        // Canvasをクリア
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-        // キーボードイベントの設定
-        document.addEventListener('keydown', (event) => this.handleKeyDown(event));
+        // グリッドの描画
+        this.drawGrid(grid);
+
+        // 現在のテトリミノの描画
+        this.drawTetromino(currentTetromino);
     }
 
-    // キーボード入力に応じたイベント
-    handleKeyDown(event) {
-        switch (event.keyCode) {
-            case 37: // 左矢印キー
-                this.emit('left');
-                break;
-            case 39: // 右矢印キー
-                this.emit('right');
-                break;
-            case 38: // 上矢印キー（回転）
-                this.emit('rotate');
-                break;
-            case 40: // 下矢印キー（ドロップ）
-                this.emit('drop');
-                break;
-        }
-    }
-
-    // イベントリスナーの登録
-    on(event, callback) {
-        document.addEventListener(event, callback);
-    }
-
-    // イベントを発火
-    emit(event) {
-        const customEvent = new Event(event);
-        document.dispatchEvent(customEvent);
-    }
-
-    // ゲームの状態に基づいて画面を描画
-    render(grid, currentPiece) {
-        // ここにゲーム画面を描画するコードを書く
-        this.gameBoard.innerHTML = this.createBoardHtml(grid, currentPiece)
-    }
-
-    // ゲーム画面の作成
-    createBoardHtml(grid, currentPiece) {
-        let html = '<table>';
+    drawGrid(grid) {
         for (let y = 0; y < grid.length; y++) {
-            const isCurrentPiece = currentPiece.shape.some(
-                (row, dy) => row.some((value, dx) => value && currentPiece.x + dx === x && currentPiece.y + dy === y)
-            );
-            html += `<td class="${isCurrentPiece ? 'piece' : ''}"></td>`;
+            for (let x = 0; x < grid[y].length; x++) {
+                if (grid[y][x] === 0) {
+                    // 空のセルの場合は暗い色で描画
+                    this.context.fillStyle = '#151515'; // グリッドのセルの色
+                } else {
+                    // テトリミノのセルの場合は明るい色で描画
+                    this.context.fillStyle = '#f00'; // テトリミノのセルの色
+                }
+                this.context.fillRect(x * this.cellSize + 0.5, y * this.cellSize + 0.5, this.cellSize, this.cellSize);
+            }
         }
     }
 
-    // ゲームオーバー時の処理
-    showGameOver() {
-        // ゲームオーバー時の表示を行う
+    drawTetromino(tetromino) {
+        this.context.fillStyle = '#f00'; // テトリミノの色
+        tetromino.shape.forEach((row, dy) => {
+            row.forEach((value, dx) => {
+                if (value) {
+                    this.context.fillRect(
+                        (tetromino.x + dx) * this.cellSize,
+                        (tetromino.y + dy) * this.cellSize,
+                        this.cellSize,
+                        this.cellSize
+                    );
+                }
+            });
+        });
     }
 }
-
