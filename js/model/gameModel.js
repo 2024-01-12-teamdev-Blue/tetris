@@ -33,13 +33,47 @@ class GameModel {
     // 新しいテトリミノを生成
     createNewTetromino() {
         // ランダムにテトリミノを選択し、初期状態で返す
+        const blocks = [
+            //O
+            {shape: [[1,1],
+                     [1,1]],
+             color: "yellow"
+            },
+            //I
+            {shape: [[1,1,1,1]],
+             color: "ligthblue"
+            },
+            //T
+            {shape: [[0,1,0],
+                     [1,1,1]],
+             color: "purple"
+            },
+            //L
+            {shape: [[0,0,1],
+                     [1,1,1]],
+             color: "olange"
+            },
+            //J
+            {shape: [[1,0,0],
+                     [1,1,1]],
+             color: "darkblue"
+            },
+            //Z
+            {shape: [[0,1,1],
+                     [1,1,0]],
+             color: "green"
+            },
+            //S
+            {shape: [[1,1,0],
+                     [0,1,1]],
+             color: "red"}
+        ]
+        const block = blocks[Math.floor(Math.random()*blocks.length)];
         return {
-            x: 3,
+            x: Math.floor(10/2) - Math.ceil(block.shape[0].length /2),
             y: 0,
-            shape: [
-                [0, 1, 1],
-                [1, 1, 0]
-            ]
+            shape: block.shape,
+            color: block.color
         };
     }
 
