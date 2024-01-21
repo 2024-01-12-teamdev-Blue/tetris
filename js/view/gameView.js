@@ -44,15 +44,25 @@ class GameView {
     }
 
     // ゲームの状態に基づいて画面を描画
-    render(data) {
+    render(grid, currentPiece) {
         // ここにゲーム画面を描画するコードを書く
-        // 例: this.gameBoard.innerHTML = ...;
+        this.gameBoard.innerHTML = this.createBoardHtml(grid, currentPiece)
+    }
+
+    // ゲーム画面の作成
+    createBoardHtml(grid, currentPiece) {
+        let html = '<table>';
+        for (let y = 0; y < grid.length; y++) {
+            const isCurrentPiece = currentPiece.shape.some(
+                (row, dy) => row.some((value, dx) => value && currentPiece.x + dx === x && currentPiece.y + dy === y)
+            );
+            html += `<td class="${isCurrentPiece ? 'piece' : ''}"></td>`;
+        }
     }
 
     // ゲームオーバー時の処理
     showGameOver() {
         // ゲームオーバー時の表示を行う
-        // 例: this.gameBoard.innerHTML = '<h1>Game Over</h1>';
     }
 }
 

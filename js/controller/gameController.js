@@ -16,6 +16,15 @@ class GameController {
 
         //ゲームの初期状態を設定
         view.render(model.data);
+        
+        setInterval(() => {
+            this.gameLoop();
+        }, 1000) // 1000ms毎に更新
+    }
+    
+    gameLoop() {
+        this.model.drop();
+        this.view.render(this.model.grid, this.model.currentPiece);
     }
 
     // 左に動かす
