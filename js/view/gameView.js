@@ -30,15 +30,6 @@ class GameView {
     drawGrid(grid) {
         for (let y = 0; y < grid.length; y++) {
             for (let x = 0; x < grid[y].length; x++) {
-                /*
-                if (grid[y][x] === 0) {
-                    // 空のセルの場合は暗い色で描画
-                    this.context.fillStyle = '#151515'; // グリッドのセルの色
-                } else {
-                    // テトリミノのセルの場合は明るい色で描画
-                    this.context.fillStyle = '#f00'; // テトリミノのセルの色
-                }
-                */
                switch (grid[y][x]) {
                     case 0:
                         this.context.fillStyle = '#151515'; // グリッドのセルの色
