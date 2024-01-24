@@ -1,3 +1,26 @@
+body{
+    background-color:#64d8ee;
+    color: #9d2d17;
+}
+
 #cvs {
-    border: 2px solid black;
+    border: 2px solid #64d8ee;
+}
+#title{
+    height: 25%;
+    display: flex;
+    justify-content: center;
+}
+#main-area{
+    height:75%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#start-button{
+    color: #9d2d17; 
+}
+#next-button{
+    color: #9d2d17; 
 }
