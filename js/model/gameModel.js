@@ -71,7 +71,7 @@ class GameModel {
                 if (newY < 0) {
                     continue;
                 }
-                if (newY >= 0 && this.grid[newY] && this.grid[newY][newX]) {
+                if (this.grid[newY] && this.grid[newY][newX]) {
                     return true;
                 }
             }
@@ -90,22 +90,22 @@ class GameModel {
         });
     }
 
-// テトリミノを左に移動
-moveLeft() {
+    // テトリミノを左に移動
+    moveLeft() {
 	if(!this.detectCollision(-1,0,this.currentTetromino)){
 		this.currentTetromino.x--;
 	}
 	// 現在のテトリミノを左に移動するロジック
 	// 衝突のチェックもここで行う
-}
+    }
 
-// テトリミノを右に移動
-moveRight() {
+    // テトリミノを右に移動
+    moveRight() {
 	if(!this.detectCollision(1,0,this.currentTetromino)){
 		this.currentTetromino.x++;
 	}        // 現在のテトリミノを右に移動するロジック
 	// 衝突のチェックもここで行う
-}
+    }
 
     // テトリミノを回転
     rotate() {
