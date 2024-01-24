@@ -7,8 +7,41 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div id="tetris-container">
-        <canvas id="cvs"></canvas>
+    <div id="title">
+        <h1>テトリス</h1>
+    </div>
+    <div id="main-area">
+        <div id="tetris-container">
+            <canvas id="cvs"></canvas>
+        </div>
+        <div class="sidebar">
+            <button id="start-button">スタート</button>
+            <h3>あなたのスコア：<span id="score">0</span></h3> 
+            <button id="next-button">次のゲームを開始する</button>
+            <table class="sidebar playing-method">
+                <caption>操作方法</caption>
+                <tr>
+                    <th>キー</th>
+                    <th>動作</th>
+                </tr>
+                <tr>
+                    <th>→</th>
+                    <th>右に移動</th>
+                </tr>
+                <tr>
+                    <th>←</th>
+                    <th>左に移動</th>
+                </tr>
+                <tr>
+                    <th>↓</th>
+                    <th>早く落下させる</th>
+                </tr>
+                <tr>
+                    <th>↑</th>
+                    <th>ブロックを回転させる</th>
+                </tr>
+            </table>
+        </div>
     </div>
     <script src="js/model/gameModel.js"></script>
     <script src="js/view/gameView.js"></script>
