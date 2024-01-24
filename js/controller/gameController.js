@@ -11,6 +11,8 @@ class GameController {
 
         //ゲームの初期状態を設定
         view.render(model.data.grid, model.data.currentTetromino);
+        //イベントリスナー追加
+        document.addEventListener('keydown', this.handleKeyDown.bind(this)); 
         
         setInterval(() => {
             this.gameLoop();
@@ -23,23 +25,36 @@ class GameController {
         this.view.render(this.model.grid, this.model.currentTetromino);
         console.log('render after:', JSON.stringify(this.model.grid));
     }
-
+    // キー入力時の動き
+    handleKeyDown(event){
+        switch(event.key){
+            case 'ArrowLeft':
+                this.moveLeft();
+                break;           
+            case 'ArrowRight':
+                this.moveRight();
+                break;       
+        }
+    }
     // 左に動かす
     moveLeft() {
-        model.moveLeft();
-        view.render(model.data);
+        if(!this.model.detectCollision(-1,0,this.model.currentTetromino)){
+        this.model.moveLeft();
+        this.view.render(this.model.grid,this.model.currentTetromino);
+        }
     }
 
     // 右に動かす
     moveRight() {
-        model.moveRight();
-        view.render(model.data);
+        if(!this.model.detectCollision(1,0,this.model.currentTetromino)){
+            this.model.moveRight();
+            this.view.render(this.model.grid,this.model.currentTetromino);    
     }
 
     // テトリミノを回転させる
-    rotate() {
-        model.rotate();
-        view.render(model.data);
+    //rotate() {
+    //    model.rotate();
+    //    view.render(model.data);
     }
 
     // テトリミノを下に落とす

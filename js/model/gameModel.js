@@ -61,7 +61,7 @@ class GameModel {
         for (let y = 0; y < tetromino.shape.length; y++) {
             for (let x = 0; x < tetromino.shape.length; x++) {
                 if (!tetromino.shape[y][x]) {
-                    continue
+                    continue;
                 }
                 let newX = tetromino.x + x + xOffset;
                 let newY = tetromino.y + y + yOffset;
@@ -71,7 +71,7 @@ class GameModel {
                 if (newY < 0) {
                     continue;
                 }
-                if (this.grid[newY] && this.grid[newY][newX]) {
+                if (newY >= 0 && this.grid[newY] && this.grid[newY][newX]) {
                     return true;
                 }
             }
@@ -90,17 +90,22 @@ class GameModel {
         });
     }
 
-    // テトリミノを左に移動
-    moveLeft() {
-        // 現在のテトリミノを左に移動するロジック
-        // 衝突のチェックもここで行う
-    }
+// テトリミノを左に移動
+moveLeft() {
+	if(!this.detectCollision(-1,0,this.currentTetromino)){
+		this.currentTetromino.x--;
+	}
+	// 現在のテトリミノを左に移動するロジック
+	// 衝突のチェックもここで行う
+}
 
-    // テトリミノを右に移動
-    moveRight() {
-        // 現在のテトリミノを右に移動するロジック
-        // 衝突のチェックもここで行う
-    }
+// テトリミノを右に移動
+moveRight() {
+	if(!this.detectCollision(1,0,this.currentTetromino)){
+		this.currentTetromino.x++;
+	}        // 現在のテトリミノを右に移動するロジック
+	// 衝突のチェックもここで行う
+}
 
     // テトリミノを回転
     rotate() {
