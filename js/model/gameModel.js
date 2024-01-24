@@ -59,7 +59,7 @@ class GameModel {
     // 衝突チェック
     detectCollision(xOffset, yOffset, tetromino) {
         for (let y = 0; y < tetromino.shape.length; y++) {
-            for (let x = 0; x < tetromino.shape.length; x++) {
+            for (let x = 0; x < tetromino.shape[y].length; x++) {
                 if (!tetromino.shape[y][x]) {
                     continue;
                 }
@@ -71,7 +71,7 @@ class GameModel {
                 if (newY < 0) {
                     continue;
                 }
-                if (this.grid[newY] && this.grid[newY][newX]) {
+                if (newY >= 0 && this.grid[newY] && this.grid[newY][newX]) {
                     return true;
                 }
             }
