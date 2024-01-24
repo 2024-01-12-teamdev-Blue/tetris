@@ -90,21 +90,18 @@ class GameModel {
         });
     }
 
-    // テトリミノを左に移動
+    // テトリミノを左に移動,衝突のチェックもここで行う
     moveLeft() {
 	if(!this.detectCollision(-1,0,this.currentTetromino)){
 		this.currentTetromino.x--;
-	}
-	// 現在のテトリミノを左に移動するロジック
-	// 衝突のチェックもここで行う
+	    }
     }
 
-    // テトリミノを右に移動
+    // テトリミノを右に移動,衝突のチェックもここで行う
     moveRight() {
 	if(!this.detectCollision(1,0,this.currentTetromino)){
 		this.currentTetromino.x++;
-	}        // 現在のテトリミノを右に移動するロジック
-	// 衝突のチェックもここで行う
+	    } 
     }
 
     // テトリミノを回転

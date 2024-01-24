@@ -38,24 +38,22 @@ class GameController {
     }
     // 左に動かす
     moveLeft() {
-        if(!this.model.detectCollision(-1,0,this.model.currentTetromino)){
         this.model.moveLeft();
         this.view.render(this.model.grid,this.model.currentTetromino);
         }
-    }
+    
 
     // 右に動かす
     moveRight() {
-        if(!this.model.detectCollision(1,0,this.model.currentTetromino)){
-            this.model.moveRight();
-            this.view.render(this.model.grid,this.model.currentTetromino);    
-    }
+        this.model.moveRight();
+        this.view.render(this.model.grid,this.model.currentTetromino);    
+        }
 
     // テトリミノを回転させる
     //rotate() {
     //    model.rotate();
     //    view.render(model.data);
-    }
+    //}
 
     // テトリミノを下に落とす
     drop() {
