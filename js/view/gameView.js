@@ -32,26 +32,26 @@ class GameView {
             for (let x = 0; x < grid[y].length; x++) {
                 if (grid[y][x] === 0) {
                     // 空のセルの場合は暗い色で描画
-                    this.context.fillStyle = '#151515'; // グリッドのセルの色
+                    this.context.fillStyle = '#70605A'; // グリッドのセルの色
                 } else {
                     // テトリミノのセルの場合は明るい色で描画
-                    this.context.fillStyle = '#f00'; // テトリミノのセルの色
+                    this.context.fillStyle = '#FFFF00'; // テトリミノのセルの色
                 }
-                this.context.fillRect(x * this.cellSize + 0.5, y * this.cellSize + 0.5, this.cellSize, this.cellSize);
+                this.context.fillRect(x * this.cellSize + 1.25, y * this.cellSize + 1.25, this.cellSize - 2.5, this.cellSize - 2.5);
             }
         }
     }
 
     drawTetromino(tetromino) {
-        this.context.fillStyle = '#f00'; // テトリミノの色
+        this.context.fillStyle = '#FFFF00'; // テトリミノの色
         tetromino.shape.forEach((row, dy) => {
             row.forEach((value, dx) => {
                 if (value) {
                     this.context.fillRect(
-                        (tetromino.x + dx) * this.cellSize,
-                        (tetromino.y + dy) * this.cellSize,
-                        this.cellSize,
-                        this.cellSize
+                        (tetromino.x + dx) * this.cellSize + 1.25,
+                        (tetromino.y + dy) * this.cellSize + 1.25,
+                        this.cellSize - 2.5,
+                        this.cellSize - 2.5
                     );
                 }
             });
