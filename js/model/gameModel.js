@@ -163,6 +163,15 @@ class GameModel {
     rotate() {
         // 現在のテトリミノを回転するロジック
         // 衝突のチェックもここで行う
+        let tetromino = [];
+        for(let y=0; y<this.currentTetromino.shape.length; y++){
+            tetromino[y] = [];
+            for(let x=0; x<this.currentTetromino.shape[y].length; x++){
+                tetromino[y][x] = tetro[this.currentTetromino.shape-x-1][y];
+            }
+        }
+        return tetromino;
+
     }
 
 

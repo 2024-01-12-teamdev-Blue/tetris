@@ -48,6 +48,9 @@ class GameController {
                     this.gameLoop();
                 }
                 break;
+            case 'ArrowUp' :
+                this.rotate();
+                break;
         }
     }
 
@@ -75,10 +78,10 @@ class GameController {
         }
 
     // テトリミノを回転させる
-    //rotate() {
-    //    model.rotate();
-    //    view.render(model.data);
-    //}
+    rotate() {
+        model.rotate();
+        this.view.render(model.data);
+    }
 
     // テトリミノを下に落とす
     drop() {
