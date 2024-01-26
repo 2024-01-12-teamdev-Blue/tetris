@@ -32,31 +32,31 @@ class GameView {
             for (let x = 0; x < grid[y].length; x++) {
                switch (grid[y][x]) {
                     case 0:
-                        this.context.fillStyle = '#151515'; // グリッドのセルの色
+                        this.context.fillStyle = '#706C5A'; // グリッドのセルの色
                         break;
                     case 1:
-                        this.context.fillStyle = "#FFFF00"; // Oテトリミノのセルの色
+                        this.context.fillStyle = "#F92338"; // Oテトリミノのセルの色
                         break;
                     case 2:
-                        this.context.fillStyle = "#00FFFF"; // Iテトリミノのセルの色
+                        this.context.fillStyle = "#C973FF"; // Iテトリミノのセルの色
                         break;
                     case 3:
-                        this.context.fillStyle = "#9400D3"; // Tテトリミノのセルの色
+                        this.context.fillStyle = "#1C76BC"; // Tテトリミノのセルの色
                         break;
                     case 4:
-                        this.context.fillStyle = "#FFA500"; // Lテトリミノのセルの色
+                        this.context.fillStyle = "#FEE356"; // Lテトリミノのセルの色
                         break;
                     case 5:
-                        this.context.fillStyle = "#0000FF"; // Jテトリミノのセルの色
+                        this.context.fillStyle = "#53D504"; // Jテトリミノのセルの色
                         break;
                     case 6:
-                        this.context.fillStyle = "#32CD32"; // Zテトリミノのセルの色
+                        this.context.fillStyle = "#36E0FF"; // Zテトリミノのセルの色
                         break;
                     case 7:
-                        this.context.fillStyle = "#FF0000"; // Sテトリミノのセルの色
+                        this.context.fillStyle = "#F8931D"; // Sテトリミノのセルの色
                         break;
                 }   
-                this.context.fillRect(x * this.cellSize + 0.5, y * this.cellSize + 0.5, this.cellSize, this.cellSize);
+                this.context.fillRect(x * this.cellSize + 1.25, y * this.cellSize + 1.25, this.cellSize - 2.5, this.cellSize - 2.5);
             }
         }
     }

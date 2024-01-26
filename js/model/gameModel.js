@@ -5,36 +5,36 @@ const blocks = [
     //O
     {shape: [[1,1],
              [1,1]],
-     color: "#FFFF00"
+     color: "#F92338"
     },
     //I
     {shape: [[2,2,2,2]],
-     color: "#00FFFF"
+     color: "#C973FF"
     },
     //T
     {shape: [[0,3,0],
              [3,3,3]],
-     color: "#9400D3"
+     color: "#1C76BC"
     },
     //L
     {shape: [[0,0,4],
              [4,4,4]],
-     color: "#FFA500"
+     color: "#FEE356"
     },
     //J
     {shape: [[5,0,0],
              [5,5,5]],
-     color: "#0000FF"
+     color: "#53D504"
     },
     //Z
     {shape: [[0,6,6],
              [6,6,0]],
-     color: "#32CD32"
+     color: "#36E0FF"
     },
     //S
     {shape: [[7,7,0],
              [0,7,7]],
-     color: "#FF0000"}
+     color: "#F8931D"}
 ]
 
 class GameModel {
