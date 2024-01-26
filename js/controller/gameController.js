@@ -19,9 +19,7 @@ class GameController {
     
     gameLoop() {
         this.model.drop();
-        console.log('render before:', JSON.stringify(this.model.grid)); 
         this.view.render(this.model.grid, this.model.currentTetromino);
-        console.log('render after:', JSON.stringify(this.model.grid));
     }
 
     // 左に動かす
