@@ -1,9 +1,46 @@
 // テトリスのゲームロジックや状態を管理するファイル。
 // テトリミノの位置、スコアなどの状態とそれらを変更するロジックが含まれます。
 
+const blocks = [
+    //O
+    {shape: [[1,1],
+             [1,1]],
+     color: "#FFFF00"
+    },
+    //I
+    {shape: [[2,2,2,2]],
+     color: "#00FFFF"
+    },
+    //T
+    {shape: [[0,3,0],
+             [3,3,3]],
+     color: "#9400D3"
+    },
+    //L
+    {shape: [[0,0,4],
+             [4,4,4]],
+     color: "#FFA500"
+    },
+    //J
+    {shape: [[5,0,0],
+             [5,5,5]],
+     color: "#0000FF"
+    },
+    //Z
+    {shape: [[0,6,6],
+             [6,6,0]],
+     color: "#32CD32"
+    },
+    //S
+    {shape: [[7,7,0],
+             [0,7,7]],
+     color: "#FF0000"}
+]
+
 class GameModel {
     constructor() {
         this.grid = this.createEmptyGrid();
+        this.bag = [];
         this.currentTetromino = this.createNewTetromino();
         this.score = 0;
     }
@@ -33,48 +70,32 @@ class GameModel {
     // 新しいテトリミノを生成
     createNewTetromino() {
         // ランダムにテトリミノを選択し、初期状態で返す
-        const blocks = [
-            //O
-            {shape: [[1,1],
-                     [1,1]],
-             color: "#FFFF00"
-            },
-            //I
-            {shape: [[2,2,2,2]],
-             color: "#00FFFF"
-            },
-            //T
-            {shape: [[0,3,0],
-                     [3,3,3]],
-             color: "#9400D3"
-            },
-            //L
-            {shape: [[0,0,4],
-                     [4,4,4]],
-             color: "#FFA500"
-            },
-            //J
-            {shape: [[5,0,0],
-                     [5,5,5]],
-             color: "#0000FF"
-            },
-            //Z
-            {shape: [[0,6,6],
-                     [6,6,0]],
-             color: "#32CD32"
-            },
-            //S
-            {shape: [[7,7,0],
-                     [0,7,7]],
-             color: "#FF0000"}
-        ]
-        const block = blocks[Math.floor(Math.random()*blocks.length)];
+        let block = this.getTetriminoFromBag(); 
         return {
             x: Math.floor(10/2) - Math.ceil(block.shape[0].length /2),
             y: 0,
             shape: block.shape,
             color: block.color
         };
+    }
+    
+    // 配列をランダムに並び替え
+    shuffle(array) {
+        for (let i = array.length - 1; i >= 0; i--) {
+            let j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    // バッグからテトリミノを一つ取り出す
+    getTetriminoFromBag() {
+        if (this.bag.length === 0) {
+            this.bag = blocks.slice();
+            this.shuffle(this.bag);
+        }
+        console.log(this.bag);
+        return this.bag.pop();
     }
 
     // テトリミノを落とす
