@@ -8,48 +8,86 @@ class GameController {
     constructor(model, view) {
         this.model = model;
         this.view = view;
+        this.interval = 1000;
+        this.gameInterval = null;
+        this.softDropFlag = false;
 
         //ゲームの初期状態を設定
         view.render(model.data.grid, model.data.currentTetromino);
+        //イベントリスナー追加
+        document.addEventListener('keydown', this.handleKeyDown.bind(this)); 
+        document.addEventListener('keyup', this.handleKeyUp.bind(this));
         
-        setInterval(() => {
-            this.gameLoop();
-        }, 1000) // 1000ms毎に更新
+        this.gameLoop();
     }
     
     gameLoop() {
-        this.model.drop();
-        console.log('render before:', JSON.stringify(this.model.grid)); 
-        this.view.render(this.model.grid, this.model.currentTetromino);
-        console.log('render after:', JSON.stringify(this.model.grid));
+        if (this.gameInterval) {
+            clearInterval(this.gameInterval);
+        }
+
+        this.gameInterval = setInterval(() => {
+            this.model.drop();
+            this.view.render(this.model.grid, this.model.currentTetromino);
+        }, this.interval);
+    }
+
+    // キー入力時の動き
+    handleKeyDown(event){
+        switch(event.key){
+            case 'ArrowLeft':
+                this.moveLeft();
+                break;           
+            case 'ArrowRight':
+                this.moveRight();
+                break;       
+            case 'ArrowDown':
+                if (!this.softDropFlag) {
+                    this.interval /= 20;
+                    this.softDropFlag = true;
+                    this.gameLoop();
+                }
+                break;
+        }
+    }
+
+    handleKeyUp(event){
+        switch(event.key){
+            case 'ArrowDown':
+                this.interval = 1000;
+                this.softDropFlag = false;
+                this.gameLoop();
+                break;
+        }
     }
 
     // 左に動かす
     moveLeft() {
-        model.moveLeft();
-        view.render(model.data);
-    }
+        this.model.moveLeft();
+        this.view.render(this.model.grid,this.model.currentTetromino);
+        }
+    
 
     // 右に動かす
     moveRight() {
-        model.moveRight();
-        view.render(model.data);
-    }
+        this.model.moveRight();
+        this.view.render(this.model.grid,this.model.currentTetromino);    
+        }
 
     // テトリミノを回転させる
-    rotate() {
-        model.rotate();
-        view.render(model.data);
-    }
+    //rotate() {
+    //    model.rotate();
+    //    view.render(model.data);
+    //}
 
     // テトリミノを下に落とす
     drop() {
         model.drop();
         const isGameOver = model.checkGameOver();
         if (isGameOver) {
-            view.showGameOver();
+            this.view.showGameOver();
         } else {
-            view.render(model.data);
+            this.view.render(model.data);
         }
     }
 }

@@ -67,10 +67,10 @@ class GameView {
             row.forEach((value, dx) => {
                 if (value) {
                     this.context.fillRect(
-                        (tetromino.x + dx) * this.cellSize,
-                        (tetromino.y + dy) * this.cellSize,
-                        this.cellSize,
-                        this.cellSize
+                        (tetromino.x + dx) * this.cellSize + 1.25,
+                        (tetromino.y + dy) * this.cellSize + 1.25,
+                        this.cellSize - 2.5,
+                        this.cellSize - 2.5
                     );
                 }
             });
