@@ -73,19 +73,182 @@ describe('GameModel', () => {
     describe('drop', () => {
         test('should drop tetromino', () => {
             const gameModel = new GameModel();
-            const tetromino = gameModel.createNewTetromino();
-            gameModel.drop(tetromino);
-            expect(tetromino.y).toBe(1);
+            const initialY = gameModel.currentTetromino.y;
+            gameModel.drop();
+            expect(gameModel.currentTetromino.y).toBe(initialY + 1);
+        });
+
+        test('should fix tetromino and create new tetromino when collision detected', () => {
+            const gameModel = new GameModel();
+            gameModel.detectCollision = jest.fn().mockReturnValue(true);
+            gameModel.fixTetromino = jest.fn();
+            gameModel.createNewTetromino = jest.fn().mockReturnValue('newTetromino');
+
+            gameModel.drop();
+
+            expect(gameModel.fixTetromino).toHaveBeenCalled();
+            expect(gameModel.createNewTetromino).toHaveBeenCalled();
+            expect(gameModel.currentTetromino).toBe('newTetromino');
         });
     });
 
     describe('detectCollision', () => {
-        test('should detect collision', () => {
+        test('should return false when collision not detected', () => {
             const gameModel = new GameModel();
-            const tetromino = gameModel.currentTetromino;
-            expect(gameModel.detectCollision(tetromino)).toBeFalsy();
-            tetromino.y = 19;
-            expect(gameModel.detectCollision(tetromino)).toBeTruthy();
+            expect(gameModel.detectCollision(0, 0, gameModel.currentTetromino)).toBeFalsy();
+        });
+
+        // 下限
+        test('should return true when collision detected', () => {
+            const gameModel = new GameModel();
+            expect(gameModel.detectCollision(0, 20, gameModel.currentTetromino)).toBeTruthy();
+        });
+
+        // 左端
+        test('should return true when collision detected', () => {
+            const gameModel = new GameModel();
+            if (gameModel.currentTetromino.shape[0][0] === 1) {
+                expect(gameModel.detectCollision(-5, 0, gameModel.currentTetromino)).toBeTruthy();
+            }else {
+                expect(gameModel.detectCollision(-4, 0, gameModel.currentTetromino)).toBeTruthy();
+            }
+        });
+        
+        // 右端
+        test('should return true when collision detected', () => {
+            const gameModel = new GameModel();
+            expect(gameModel.detectCollision(7, 0, gameModel.currentTetromino)).toBeTruthy();
+        });
+
+        // 下のブロックに衝突
+        test('should return true when collision detected', () => {
+            const gameModel = new GameModel();
+            gameModel.grid[1] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+            gameModel.grid[2] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+            expect(gameModel.detectCollision(0, 1, gameModel.currentTetromino)).toBeTruthy();
+        });
+
+        // 左のブロックに衝突
+        test('should return true when collision detected', () => {
+            const gameModel = new GameModel();
+            for (let y = 0; y < 20; y++) {
+                gameModel.grid[y][2] = 1;
+                gameModel.grid[y][3] = 1;
+            }
+            expect(gameModel.detectCollision(-1, 0, gameModel.currentTetromino)).toBeTruthy();
+        });
+
+        // 右のブロックに衝突
+        test('should return true when collision detected', () => {
+            const gameModel = new GameModel();
+            for (let y = 0; y < 20; y++) {
+                gameModel.grid[y][6] = 1;
+                gameModel.grid[y][7] = 1;
+            }
+            expect(gameModel.detectCollision(1, 0, gameModel.currentTetromino)).toBeTruthy();
+        });
+
+        // 初期位置で衝突
+        test('should return true when collision detected', () => {
+            const gameModel = new GameModel();
+            gameModel.grid[0] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+            gameModel.grid[1] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+            expect(gameModel.detectCollision(0, 0, gameModel.currentTetromino)).toBeTruthy();
+        });
+    });
+
+    describe('fixTetromino', () => {
+        test('should fix tetromino', () => {
+            const gameModel = new GameModel();
+            gameModel.currentTetromino = {
+                shape: [
+                    [1, 1],
+                    [1, 1]
+                ],
+                x: 4,
+                y: 5
+            };
+            gameModel.grid = [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            ];
+
+            gameModel.fixTetromino();
+
+            expect(gameModel.grid).toEqual([
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+                [0, 0, 0, 0, 1, 1, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+            ]);
+        });
+    });
+
+    describe('moveLeft', () => {
+        test('should move tetromino to left', () => {
+            const gameModel = new GameModel();
+            const initialX = gameModel.currentTetromino.x;
+            gameModel.moveLeft();
+            expect(gameModel.currentTetromino.x).toBe(initialX - 1);
+        });
+
+        test('should not move tetromino to left when collision detected', () => {
+            const gameModel = new GameModel();
+            gameModel.detectCollision = jest.fn().mockReturnValue(true);
+            const initialX = gameModel.currentTetromino.x;
+            gameModel.moveLeft();
+            expect(gameModel.currentTetromino.x).toBe(initialX);
+        });
+    });
+
+    describe('moveRight', () => {
+        test('should move tetromino to right', () => {
+            const gameModel = new GameModel();
+            const initialX = gameModel.currentTetromino.x;
+            gameModel.moveRight();
+            expect(gameModel.currentTetromino.x).toBe(initialX + 1);
+        });
+
+        test('should not move tetromino to right when collision detected', () => {
+            const gameModel = new GameModel();
+            gameModel.detectCollision = jest.fn().mockReturnValue(true);
+            const initialX = gameModel.currentTetromino.x;
+            gameModel.moveRight();
+            expect(gameModel.currentTetromino.x).toBe(initialX);
         });
     });
 });
