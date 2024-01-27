@@ -251,4 +251,18 @@ describe('GameModel', () => {
             expect(gameModel.currentTetromino.x).toBe(initialX);
         });
     });
+
+    describe('checkGameOver', () => {
+        test('should return true when game over', () => {
+            const gameModel = new GameModel();
+            gameModel.grid[0] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+            gameModel.grid[1] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
+            expect(gameModel.checkGameOver()).toBeTruthy();
+        });
+
+        test('should return false when game not over', () => {
+            const gameModel = new GameModel();
+            expect(gameModel.checkGameOver()).toBeFalsy();
+        });
+    });
 });
