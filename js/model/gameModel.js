@@ -70,7 +70,7 @@ class GameModel {
     // 新しいテトリミノを生成
     createNewTetromino() {
         // ランダムにテトリミノを選択し、初期状態で返す
-        let block = this.getTetriminoFromBag(); 
+        let block = this.getTetrominoFromBag(); 
         return {
             x: Math.floor(10/2) - Math.ceil(block.shape[0].length /2),
             y: 0,
@@ -89,12 +89,11 @@ class GameModel {
     }
 
     // バッグからテトリミノを一つ取り出す
-    getTetriminoFromBag() {
+    getTetrominoFromBag() {
         if (this.bag.length === 0) {
             this.bag = blocks.slice();
             this.shuffle(this.bag);
         }
-        console.log(this.bag);
         return this.bag.pop();
     }
 
@@ -173,3 +172,4 @@ class GameModel {
     
 }
 
+module.exports = GameModel;
