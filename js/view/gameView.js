@@ -24,7 +24,9 @@ class GameView {
         this.drawGrid(grid);
 
         // 現在のテトリミノの描画
+        if(!GameModel.gameOverFlag){
         this.drawTetromino(currentTetromino);
+        }
     }
 
     drawGrid(grid) {
