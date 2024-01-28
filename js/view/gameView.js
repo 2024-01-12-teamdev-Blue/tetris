@@ -76,4 +76,15 @@ class GameView {
             });
         });
     }
+
+    // ゲームオーバーの表示
+    showGameOver() {
+        this.context.fillStyle = 'rgba(0,0,0,0.75)';
+        this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.fillStyle = '#fff';
+        this.context.font = '36px Inconsolata, Courier, monospace';
+        this.context.textAlign = 'center';
+        this.context.textBaseline = 'middle';
+        this.context.fillText('GAME OVER', this.canvas.width / 2, this.canvas.height / 2);
+    }
 }

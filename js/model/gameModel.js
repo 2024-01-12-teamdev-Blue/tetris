@@ -43,6 +43,7 @@ class GameModel {
         this.bag = [];
         this.currentTetromino = this.createNewTetromino();
         this.score = 0;
+        this.isGameOver = false;
     }
 
     // 現在のゲームのデータを取得（ビューに渡すため）
@@ -106,7 +107,12 @@ class GameModel {
             // テトリミノを固定して、新しいテトリミノを生成
             this.fixTetromino();
             this.checkLines();
-            this.currentTetromino = this.createNewTetromino();
+            const tetromino = this.createNewTetromino();
+            if (this.checkGameOver(tetromino)) {
+                this.isGameOver = true;
+            }else{
+                this.currentTetromino = tetromino;
+            }
         }
     }
 
@@ -178,8 +184,8 @@ class GameModel {
 
 
     // ゲームオーバーのチェック
-    checkGameOver() {
-        // ゲームオーバーの条件をチェックし、その結果を返す
+    checkGameOver(tetromino) {
+        return this.detectCollision(0,0,tetromino);
     }
 
     // 任意のラインを消去

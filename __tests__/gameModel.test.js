@@ -84,6 +84,7 @@ describe('GameModel', () => {
             gameModel.fixTetromino = jest.fn();
             gameModel.checkLines = jest.fn();
             gameModel.createNewTetromino = jest.fn().mockReturnValue('newTetromino');
+            gameModel.checkGameOver = jest.fn().mockReturnValue(false);
 
             gameModel.drop();
 
@@ -91,6 +92,19 @@ describe('GameModel', () => {
             expect(gameModel.checkLines).toHaveBeenCalled();
             expect(gameModel.createNewTetromino).toHaveBeenCalled();
             expect(gameModel.currentTetromino).toBe('newTetromino');
+        });
+
+        test('should set isGameOver to true when game over', () => {
+            const gameModel = new GameModel();
+            gameModel.detectCollision = jest.fn().mockReturnValue(true);
+            gameModel.fixTetromino = jest.fn();
+            gameModel.checkLines = jest.fn();
+            gameModel.createNewTetromino = jest.fn().mockReturnValue('newTetromino');
+            gameModel.checkGameOver = jest.fn().mockReturnValue(true);
+
+            gameModel.drop();
+
+            expect(gameModel.isGameOver).toBeTruthy();
         });
     });
 
@@ -257,14 +271,32 @@ describe('GameModel', () => {
     describe('checkGameOver', () => {
         test('should return true when game over', () => {
             const gameModel = new GameModel();
+            const tetromino = {
+                x: 4,
+                y: 0,
+                shape: [
+                    [1, 1],
+                    [1, 1]
+                ],
+                color: '#F92338'
+            };
             gameModel.grid[0] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
             gameModel.grid[1] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1];
-            expect(gameModel.checkGameOver()).toBeTruthy();
+            expect(gameModel.checkGameOver(tetromino)).toBeTruthy();
         });
 
         test('should return false when game not over', () => {
             const gameModel = new GameModel();
-            expect(gameModel.checkGameOver()).toBeFalsy();
+            const tetromino = {
+                x: 4,
+                y: 0,
+                shape: [
+                    [1, 1],
+                    [1, 1]
+                ],
+                color: '#F92338'
+            };
+            expect(gameModel.checkGameOver(tetromino)).toBeFalsy();
         });
     });
 
