@@ -82,11 +82,13 @@ describe('GameModel', () => {
             const gameModel = new GameModel();
             gameModel.detectCollision = jest.fn().mockReturnValue(true);
             gameModel.fixTetromino = jest.fn();
+            gameModel.checkLines = jest.fn();
             gameModel.createNewTetromino = jest.fn().mockReturnValue('newTetromino');
 
             gameModel.drop();
 
             expect(gameModel.fixTetromino).toHaveBeenCalled();
+            expect(gameModel.checkLines).toHaveBeenCalled();
             expect(gameModel.createNewTetromino).toHaveBeenCalled();
             expect(gameModel.currentTetromino).toBe('newTetromino');
         });
@@ -263,6 +265,63 @@ describe('GameModel', () => {
         test('should return false when game not over', () => {
             const gameModel = new GameModel();
             expect(gameModel.checkGameOver()).toBeFalsy();
+        });
+    });
+
+    describe('removeLine', () => {
+        test('should remove line', () => {
+            const gameModel = new GameModel();
+            gameModel.grid = [
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
+                [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+                [3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+                [4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+            ];
+
+            gameModel.removeLine(3);
+            expect(gameModel.grid).toEqual([
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1], 
+                [2, 2, 2, 2, 2, 2, 2, 2, 2, 2],
+                [4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+            ]);
+        });
+    });
+
+    describe('isLineComplete', () => {
+        test('should return true when line complete', () => {
+            const gameModel = new GameModel();
+            gameModel.grid[0] = [1, 2, 3, 4, 5, 6, 7, 1, 2, 3];
+            expect(gameModel.isLineComplete(0)).toBeTruthy();
+        });
+
+        test('should return false when line not complete', () => {
+            const gameModel = new GameModel();
+            gameModel.grid[0] = [1, 0, 3, 4, 5, 6, 7, 1, 2, 3];
+            expect(gameModel.isLineComplete(0)).toBeFalsy();
+        });
+    });
+
+    describe('checkLines', () => {
+        test('should remove line and return number of lines removed', () => {
+            const gameModel = new GameModel();
+            gameModel.grid = [
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 0], 
+                [2, 2, 2, 2, 2, 2, 2, 2, 2, 0],
+                [3, 3, 3, 3, 3, 3, 3, 3, 3, 3],
+                [4, 4, 4, 4, 4, 4, 4, 4, 4, 4]
+            ];
+
+            const lines = gameModel.checkLines();
+            expect(lines).toBe(2);
+            expect(gameModel.grid).toEqual([
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
+                [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                [1, 1, 1, 1, 1, 1, 1, 1, 1, 0], 
+                [2, 2, 2, 2, 2, 2, 2, 2, 2, 0]
+            ]);
         });
     });
 });

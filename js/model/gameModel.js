@@ -105,9 +105,9 @@ class GameModel {
         } else {
             // テトリミノを固定して、新しいテトリミノを生成
             this.fixTetromino();
+            this.checkLines();
             this.currentTetromino = this.createNewTetromino();
         }
-        // 衝突のチェックもここで行い、ラインが完成していれば消去し、スコアを更新
     }
 
     // 衝突チェック
@@ -168,6 +168,34 @@ class GameModel {
     // ゲームオーバーのチェック
     checkGameOver() {
         // ゲームオーバーの条件をチェックし、その結果を返す
+    }
+
+    // 任意のラインを消去
+    removeLine(y) {
+        this.grid.splice(y, 1);
+        this.grid.unshift(Array(10).fill(0));
+    }
+
+    // 指定された行が完全に埋まっているかチェック
+    isLineComplete(y) {
+        for (let x = 0; x < this.grid[y].length; x++) {
+            if (this.grid[y][x] === 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // 埋まった行のチェック/消去した行数のカウント
+    checkLines() {
+        let lines = 0;
+        for (let y = 0; y < this.grid.length; y++) {
+            if (this.isLineComplete(y)) {
+                this.removeLine(y);
+                lines++;
+            }
+        }
+        return lines;
     }
 }
 
