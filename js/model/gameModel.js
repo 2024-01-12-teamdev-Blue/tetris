@@ -221,7 +221,7 @@ class GameModel {
     plusScoreWhenLineDisapear(lines){
         const saving = this.calculateScore(lines);
         this.score += saving;
-        console.log("Score:" + this.score);
+        document.getElementById('score_value').innerText = this.score;
     }
 }
 
