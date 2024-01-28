@@ -105,9 +105,9 @@ class GameModel {
         } else {
             // テトリミノを固定して、新しいテトリミノを生成
             this.fixTetromino();
+            this.checkLines();
             this.currentTetromino = this.createNewTetromino();
         }
-        // 衝突のチェックもここで行い、ラインが完成していれば消去し、スコアを更新
     }
 
     // 衝突チェック
