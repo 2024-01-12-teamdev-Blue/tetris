@@ -222,8 +222,8 @@ class GameModel {
     }
     // 消したラインの数に応じたスコアを提示する
     calculateScore(lines){
-    const linesScore = [0,100,300,500,800];
-    return linesScore[lines];
+        const linesScore = [0,100,300,500,800];
+        return linesScore[lines];
     }
     // ラインが消えた時にスコアに点数を加算する
     plusScoreWhenLineDisapear(lines){
