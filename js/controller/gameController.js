@@ -11,6 +11,7 @@ class GameController {
         this.interval = 1000;
         this.gameInterval = null;
         this.softDropFlag = false;
+        this.isGameOver = false;
 
         //ゲームの初期状態を設定
         view.render(model.data.grid, model.data.currentTetromino);
@@ -25,14 +26,11 @@ class GameController {
         if (this.gameInterval) {
             clearInterval(this.gameInterval);
         }
-        if(this.model.checkGameOver()){
-            return;
-        }
         this.gameInterval = setInterval(() => {
-            console.log(this.model.gameOverFlag);
-            if (this.model.gameOverFlag) {
+            this.isGameOver = this.model.isGameOver;
+            if (this.isGameOver) {
                 clearInterval(this.gameInterval);
-                alert('Game Over');
+                this.view.showGameOver();
                 return;
             }
             this.model.drop();
@@ -42,6 +40,9 @@ class GameController {
 
     // キー入力時の動き
     handleKeyDown(event){
+        if (this.isGameOver) {
+            return;
+        }
         switch(event.key){
             case 'ArrowLeft':
                 this.moveLeft();
@@ -60,6 +61,9 @@ class GameController {
     }
 
     handleKeyUp(event){
+        if (this.isGameOver) {
+            return;
+        }
         switch(event.key){
             case 'ArrowDown':
                 this.interval = 1000;
