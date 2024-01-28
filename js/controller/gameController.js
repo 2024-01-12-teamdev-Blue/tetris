@@ -80,7 +80,7 @@ class GameController {
     // テトリミノを回転させる
     rotate() {
         model.rotate();
-        this.view.render(model.data);
+        this.view.render(this.model.grid,this.model.currentTetromino);
     }
 
     // テトリミノを下に落とす
