@@ -82,11 +82,13 @@ describe('GameModel', () => {
             const gameModel = new GameModel();
             gameModel.detectCollision = jest.fn().mockReturnValue(true);
             gameModel.fixTetromino = jest.fn();
+            gameModel.checkLines = jest.fn();
             gameModel.createNewTetromino = jest.fn().mockReturnValue('newTetromino');
 
             gameModel.drop();
 
             expect(gameModel.fixTetromino).toHaveBeenCalled();
+            expect(gameModel.checkLines).toHaveBeenCalled();
             expect(gameModel.createNewTetromino).toHaveBeenCalled();
             expect(gameModel.currentTetromino).toBe('newTetromino');
         });
