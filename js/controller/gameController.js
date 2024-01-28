@@ -25,7 +25,9 @@ class GameController {
         if (this.gameInterval) {
             clearInterval(this.gameInterval);
         }
-
+        if(this.model.checkGameOver()){
+            return;
+        }
         this.gameInterval = setInterval(() => {
             this.model.drop();
             this.view.render(this.model.grid, this.model.currentTetromino);
