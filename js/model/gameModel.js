@@ -162,6 +162,18 @@ class GameModel {
     rotate() {
         // 現在のテトリミノを回転するロジック
         // 衝突のチェックもここで行う
+        const rows = this.currentTetromino.shape.length;
+        const cols = this.currentTetromino.shape[0].length;
+        const rotatedTetromino = [];
+        for(let y=0; y<cols; y++){
+            rotatedTetromino[y] = [];
+            for(let x=0; x<rows; x++){
+                rotatedTetromino[y][x] = this.currentTetromino.shape[rows-1-x][y];
+            }
+        }
+        if(!this.detectCollision(0,0,{...this.currentTetromino,shape: rotatedTetromino})){
+            this.currentTetromino.shape = rotatedTetromino;
+            } 
     }
 
 
