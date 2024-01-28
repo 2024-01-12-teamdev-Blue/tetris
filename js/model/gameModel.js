@@ -105,7 +105,10 @@ class GameModel {
         } else {
             // テトリミノを固定して、新しいテトリミノを生成
             this.fixTetromino();
-            this.checkLines();
+            const clearedLines = this.checkLines();
+            if(clearedLines > 0){
+                this.plusScoreWhenLineDisapear(clearedLines);
+            }
             this.currentTetromino = this.createNewTetromino();
         }
     }
@@ -208,6 +211,17 @@ class GameModel {
             }
         }
         return lines;
+    }
+    // 消したラインの数に応じたスコアを提示する
+    calculateScore(lines){
+    const linesScore = [0,100,300,500,800];
+    return linesScore[lines];
+    }
+    // ラインが消えた時にスコアに点数を加算する
+    plusScoreWhenLineDisapear(lines){
+        const saving = this.calculateScore(lines);
+        this.score += saving;
+        console.log("Score:" + this.score);
     }
 }
 
