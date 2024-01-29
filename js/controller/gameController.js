@@ -79,10 +79,9 @@ class GameController {
     // NewGameボタンクリック時の動き
     newGameStart(){
         this.model = new GameModel();
-        this.interval = 1000;
-        this.gameInterval = null;
         this.isGameOver = false;
         this.softDropFlag = false;
+        this.interval = 1000;
         this.gameLoop();
     }
 
