@@ -128,3 +128,5 @@ class GameView {
         this.context.fillText('GAME OVER', this.canvas.width / 2, this.canvas.height / 2);
     }
 }
+
+module.exports = GameView;
