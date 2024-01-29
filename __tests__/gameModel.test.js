@@ -268,6 +268,51 @@ describe('GameModel', () => {
         });
     });
 
+    describe('rotate', () => {
+        test('should rotate tetromino', () => {
+            const gameModel = new GameModel();
+            gameModel.currentTetromino = {
+                shape: [
+                    [0, 1, 0],
+                    [1, 1, 1],
+                    [0, 0, 0]
+                ],
+                x: 0,
+                y: 0
+            };
+
+            gameModel.rotate();
+
+            expect(gameModel.currentTetromino.shape).toEqual([
+                [0, 1, 0],
+                [0, 1, 1],
+                [0, 1, 0]
+            ]);
+        });
+
+        test('should not rotate tetromino when collision detected', () => {
+            const gameModel = new GameModel();
+            gameModel.currentTetromino = {
+                shape: [
+                    [0, 1, 0],
+                    [1, 1, 1],
+                    [0, 0, 0]
+                ],
+                x: 0,
+                y: 0
+            };
+            gameModel.detectCollision = jest.fn().mockReturnValue(true);
+
+            gameModel.rotate();
+
+            expect(gameModel.currentTetromino.shape).toEqual([
+                [0, 1, 0],
+                [1, 1, 1],
+                [0, 0, 0]
+            ]);
+        });
+    });
+
     describe('checkGameOver', () => {
         test('should return true when game over', () => {
             const gameModel = new GameModel();
