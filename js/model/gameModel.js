@@ -225,6 +225,8 @@ class GameModel {
         }
         return lines;
     }
+
 }
 
 module.exports = GameModel;
+
