@@ -18,7 +18,7 @@ class GameController {
         //イベントリスナー追加
         document.addEventListener('keydown', this.handleKeyDown.bind(this)); 
         document.addEventListener('keyup', this.handleKeyUp.bind(this));
-        
+        document.getElementById('newgame').addEventListener('click', () => this.newGameStart());
         this.gameLoop();
     }
     
@@ -76,6 +76,15 @@ class GameController {
         }
     }
 
+    // NewGameボタンクリック時の動き
+    newGameStart(){
+        this.model = new GameModel();
+        this.isGameOver = false;
+        this.softDropFlag = false;
+        this.interval = 1000;
+        this.gameLoop();
+    }
+
     // 左に動かす
     moveLeft() {
         this.model.moveLeft();
@@ -91,7 +100,7 @@ class GameController {
 
     // テトリミノを回転させる
     rotate() {
-        model.rotate();
+        this.model.rotate();
         this.view.render(this.model.grid,this.model.currentTetromino);
     }
 
