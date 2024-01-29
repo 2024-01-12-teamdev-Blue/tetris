@@ -32,7 +32,7 @@ class GameView {
             for (let x = 0; x < grid[y].length; x++) {
                switch (grid[y][x]) {
                     case 0:
-                        this.context.fillStyle = '#706C5A'; // グリッドのセルの色
+                        this.context.fillStyle = "#706C5A"; // グリッドのセルの色
                         break;
                     case 1:
                         this.context.fillStyle = "#F92338"; // Oテトリミノのセルの色
@@ -88,3 +88,5 @@ class GameView {
         this.context.fillText('GAME OVER', this.canvas.width / 2, this.canvas.height / 2);
     }
 }
+
+module.exports = GameView;
