@@ -2,6 +2,10 @@ name: CI/CD Workflow
 
 on: push
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
