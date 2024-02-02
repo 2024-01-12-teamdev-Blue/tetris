@@ -114,6 +114,7 @@ class GameModel {
             }
             this.currentTetromino = this.createNewTetromino();
             this.checkLines();
+            let tetromino = this.currentTetromino;
             if (this.checkGameOver(tetromino)) {
                 this.isGameOver = true;
             }else{
