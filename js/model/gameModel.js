@@ -106,12 +106,12 @@ class GameModel {
         } else {
             // テトリミノを固定して、新しいテトリミノを生成
             this.fixTetromino();
-            this.checkLines();
             const clearedLines = this.checkLines();
             if(clearedLines > 0){
                 this.plusScoreWhenLineDisapear(clearedLines);
             }
-            const tetromino = this.createNewTetromino();
+            this.currentTetromino = this.createNewTetromino();
+            this.checkLines();
             if (this.checkGameOver(tetromino)) {
                 this.isGameOver = true;
             }else{
@@ -233,4 +233,3 @@ class GameModel {
 }
 
 module.exports = GameModel;
-
