@@ -14,7 +14,7 @@ class GameController {
         this.isGameOver = false;
 
         //ゲームの初期状態を設定
-        view.render(model.data.grid, model.data.currentTetromino);
+        view.render(model.data.grid, model.data.currentTetromino, model.data.nextTetromino);
         //イベントリスナー追加
         document.addEventListener('keydown', this.handleKeyDown.bind(this)); 
         document.addEventListener('keyup', this.handleKeyUp.bind(this));
@@ -34,7 +34,7 @@ class GameController {
                 return;
             }
             this.model.drop();
-            this.view.render(this.model.grid, this.model.currentTetromino);
+            this.view.render(this.model.grid, this.model.currentTetromino,this.model.nextTetromino);
         }, this.interval);
     }
 
@@ -79,20 +79,20 @@ class GameController {
     // 左に動かす
     moveLeft() {
         this.model.moveLeft();
-        this.view.render(this.model.grid,this.model.currentTetromino);
+        this.view.render(this.model.grid,this.model.currentTetromino,this.model.nextTetromino);
         }
     
 
     // 右に動かす
     moveRight() {
         this.model.moveRight();
-        this.view.render(this.model.grid,this.model.currentTetromino);    
+        this.view.render(this.model.grid,this.model.currentTetromino,this.model.nextTetromino);    
         }
 
     // テトリミノを回転させる
     rotate() {
         model.rotate();
-        this.view.render(this.model.grid,this.model.currentTetromino);
+        this.view.render(this.model.grid,this.model.currentTetromino,this.model.nextTetromino);
     }
 
     // テトリミノを下に落とす
