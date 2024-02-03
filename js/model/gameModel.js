@@ -111,7 +111,6 @@ class GameModel {
             if(clearedLines > 0){
                 this.plusScoreWhenLineDisapear(clearedLines);
             }
-            this.checkLines();
             //ゲームオーバー判定
             const tetromino = this.createNewTetromino();
             if (this.checkGameOver(tetromino)) {
