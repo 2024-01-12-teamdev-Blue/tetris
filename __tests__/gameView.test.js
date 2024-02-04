@@ -9,6 +9,10 @@ describe('GameView', () => {
         canvas = document.createElement('canvas');
         canvas.id = 'cvs';
         document.body.appendChild(canvas);
+
+        nextBlockCanvas = document.createElement('canvas');
+        nextBlockCanvas.id = 'nextBlockCanvas';
+        document.body.appendChild(nextBlockCanvas);
     });
 
     // テストのクリーンアップ
@@ -52,8 +56,17 @@ describe('GameView', () => {
                 y: 5,
             };
 
+            const nextTetromino = {
+                shape: [
+                    [2, 2, 2, 2],
+                ],
+                color: '#C973FF',
+                x: 0,
+                y: 0,
+            };
+
             const gameView = new GameView();
-            gameView.render(grid, tetromino);
+            gameView.render(grid, tetromino, nextTetromino);
             const canvas = gameView.canvas;
 
             expect(canvas.width).toBe(300);
