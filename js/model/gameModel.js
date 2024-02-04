@@ -114,11 +114,11 @@ class GameModel {
                 this.plusScoreWhenLineDisapear(clearedLines);
             }
             //ゲームオーバー判定
-            const tetromino = this.createNewTetromino();
+            const tetromino = this.nextTetromino;
             if (this.checkGameOver(tetromino)) {
                 this.isGameOver = true;
             }else{
-                gameView.render(this.grid, this.currentTetromino, this.nextTetromino);
+                this.updateTetriminos();
             }
         }
     }

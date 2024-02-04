@@ -101,8 +101,6 @@ class GameController {
     // テトリミノを回転させる
     rotate() {
         this.model.rotate();
-        this.view.render(this.model.grid,this.model.currentTetromino);
-        model.rotate();
         this.view.render(this.model.grid,this.model.currentTetromino,this.model.nextTetromino);
     }
 
