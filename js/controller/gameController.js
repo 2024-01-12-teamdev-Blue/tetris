@@ -12,6 +12,7 @@ class GameController {
         this.gameInterval = null;
         this.softDropFlag = false;
         this.isGameOver = false;
+        this.level = 1;
 
         //ゲームの初期状態を設定
         view.render(model.data.grid, model.data.currentTetromino, model.data.nextTetromino);
@@ -26,6 +27,8 @@ class GameController {
         if (this.gameInterval) {
             clearInterval(this.gameInterval);
         }
+        this.level = Math.floor(this.model.completedLines / 10);
+        document.getElementById('level').innerText = this.level+1;
         this.gameInterval = setInterval(() => {
             this.isGameOver = this.model.isGameOver;
             if (this.isGameOver) {
@@ -35,7 +38,7 @@ class GameController {
             }
             this.model.drop();
             this.view.render(this.model.grid, this.model.currentTetromino,this.model.nextTetromino);
-        }, this.interval);
+        }, this.interval / Math.pow(2, this.level));
     }
 
     // キー入力時の動き

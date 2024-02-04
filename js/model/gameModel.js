@@ -1,6 +1,5 @@
 // テトリスのゲームロジックや状態を管理するファイル。
 // テトリミノの位置、スコアなどの状態とそれらを変更するロジックが含まれます。
-
 const blocks = [
     //O
     {shape: [[1,1],
@@ -45,6 +44,7 @@ class GameModel {
         this.nextTetromino = this.createNewTetromino();
         this.score = 0;
         this.isGameOver = false;
+        this.completedLines = 0;
     }
 
     // 現在のゲームのデータを取得（ビューに渡すため）
@@ -110,6 +110,7 @@ class GameModel {
             this.fixTetromino();
             // スコア計算
             const clearedLines = this.checkLines();
+            this.completedLines += clearedLines;
             if(clearedLines > 0){
                 this.plusScoreWhenLineDisapear(clearedLines);
             }
@@ -164,16 +165,16 @@ class GameModel {
 
     // テトリミノを左に移動,衝突のチェックもここで行う
     moveLeft() {
-	if(!this.detectCollision(-1,0,this.currentTetromino)){
-		this.currentTetromino.x--;
-	    }
+	      if(!this.detectCollision(-1,0,this.currentTetromino)){
+		      this.currentTetromino.x--;
+	      }
     }
 
     // テトリミノを右に移動,衝突のチェックもここで行う
     moveRight() {
-	if(!this.detectCollision(1,0,this.currentTetromino)){
-		this.currentTetromino.x++;
-	    } 
+	      if(!this.detectCollision(1,0,this.currentTetromino)){
+		        this.currentTetromino.x++;
+	      } 
     }
 
     // テトリミノを回転
