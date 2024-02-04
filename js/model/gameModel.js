@@ -41,6 +41,7 @@ class GameModel {
         this.grid = this.createEmptyGrid();
         this.bag = [];
         this.currentTetromino = this.createNewTetromino();
+        this.nextTetromino = this.createNewTetromino();
         this.score = 0;
         this.isGameOver = false;
         this.completedLines = 0;
@@ -51,6 +52,7 @@ class GameModel {
         return {
             grid: this.grid,
             currentTetromino: this.currentTetromino,
+            nextTetromino: this.nextTetromino,
             score: this.score
         };
     }
@@ -106,7 +108,6 @@ class GameModel {
         } else {
             // テトリミノを固定して、新しいテトリミノを生成
             this.fixTetromino();
-          
             // スコア計算
             const clearedLines = this.checkLines();
             this.completedLines += clearedLines;
@@ -114,13 +115,18 @@ class GameModel {
                 this.plusScoreWhenLineDisapear(clearedLines);
             }
             //ゲームオーバー判定
-            const tetromino = this.createNewTetromino();
+            const tetromino = this.nextTetromino;
             if (this.checkGameOver(tetromino)) {
                 this.isGameOver = true;
             }else{
-                this.currentTetromino = tetromino;
+                this.updateTetriminos();
             }
         }
+    }
+
+    updateTetriminos(){
+        this.currentTetromino = this.nextTetromino;
+        this.nextTetromino = this.createNewTetromino();
     }
 
     // 衝突チェック
@@ -188,7 +194,6 @@ class GameModel {
             this.currentTetromino.shape = rotatedTetromino;
             } 
     }
-
 
     // ゲームオーバーのチェック
     checkGameOver(tetromino) {

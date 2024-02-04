@@ -56,13 +56,15 @@ describe('GameModel', () => {
     describe('getTetrominoFromBag', () => {
         test('should return tetromino from bag', () => {
             const gameModel = new GameModel();
-            expect(gameModel.bag.length).toBe(6);
+            expect(gameModel.bag.length).toBe(5);
             for (let i = 0; i < 7; i++) {
                 const tetromino = gameModel.getTetrominoFromBag();
-                if (i === 6) {
+                if (i === 5) {
                     expect(gameModel.bag.length).toBe(6);
+                }else if (i === 6) {
+                    expect(gameModel.bag.length).toBe(5);
                 }else {
-                    expect(gameModel.bag.length).toBe(5-i);
+                    expect(gameModel.bag.length).toBe(4-i);
                 }
                 expect(tetromino.shape).toBeDefined();
                 expect(tetromino.color).toBeDefined();
@@ -83,15 +85,14 @@ describe('GameModel', () => {
             gameModel.detectCollision = jest.fn().mockReturnValue(true);
             gameModel.fixTetromino = jest.fn();
             gameModel.checkLines = jest.fn();
-            gameModel.createNewTetromino = jest.fn().mockReturnValue('newTetromino');
+            gameModel.updateTetriminos = jest.fn();
             gameModel.checkGameOver = jest.fn().mockReturnValue(false);
 
             gameModel.drop();
 
             expect(gameModel.fixTetromino).toHaveBeenCalled();
             expect(gameModel.checkLines).toHaveBeenCalled();
-            expect(gameModel.createNewTetromino).toHaveBeenCalled();
-            expect(gameModel.currentTetromino).toBe('newTetromino');
+            expect(gameModel.updateTetriminos).toHaveBeenCalled();
         });
 
         test('should set isGameOver to true when game over', () => {
